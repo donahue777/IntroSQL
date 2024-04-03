@@ -18,11 +18,22 @@ namespace IntroSQL
             IDbConnection conn = new MySqlConnection(connString);
 
             DepartmentRepository repo = new DepartmentRepository(conn);
-            var Departments = repo.GetAllDepartments();
+            IEnumerable<Department> Departments = repo.GetAllDepartments();
 
-            foreach(var dep in Departments)
+            //foreach(Department dep in Departments)
+            //{
+            //    Console.WriteLine($"{dep.DepartmentID} {dep.Name}");
+            //}
+
+            DapperProductRepository prodRepo = new DapperProductRepository(conn);
+
+            prodRepo.CreateProduct("Jellybean", 78, 1);
+
+            IEnumerable<Product> products = prodRepo.GetAllProducts();
+
+            foreach(var prod in products)
             {
-                Console.WriteLine($"{dep.DepartmentID} {dep.Name}");
+                Console.WriteLine($"{prod.ProductID} {prod.Name} {prod.Price} {prod.OnSale} {prod.StockLevel}");
             }
         }
     }
